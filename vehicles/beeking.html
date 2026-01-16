@@ -285,9 +285,18 @@
         </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="../js/main.js"></script>
-    <script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        
         let scene, camera, renderer, model, controls;
         let autoRotate = false;
         let wireframeMode = false;
@@ -335,11 +344,57 @@
             const gridHelper = new THREE.GridHelper(10, 10, 0x444444, 0x222222);
             scene.add(gridHelper);
 
-            // Model yükleme
-            const loader = new THREE.GLTFLoader();
+            // Placeholder model oluştur
+            const createPlaceholderModel = () => {
+                const group = new THREE.Group();
+                
+                // Tekne gövdesi
+                const hullGeometry = new THREE.BoxGeometry(2, 0.5, 0.8);
+                const hullMaterial = new THREE.MeshPhongMaterial({ 
+                    color: 0x2196f3,
+                    shininess: 100 
+                });
+                const hull = new THREE.Mesh(hullGeometry, hullMaterial);
+                hull.position.y = 0.25;
+                group.add(hull);
+                
+                // Üst yapı
+                const cabinGeometry = new THREE.BoxGeometry(1, 0.4, 0.6);
+                const cabinMaterial = new THREE.MeshPhongMaterial({ 
+                    color: 0xff1744,
+                    shininess: 100 
+                });
+                const cabin = new THREE.Mesh(cabinGeometry, cabinMaterial);
+                cabin.position.set(0, 0.7, 0);
+                group.add(cabin);
+                
+                // Pervaneler
+                const propGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.3, 16);
+                const propMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
+                
+                const prop1 = new THREE.Mesh(propGeometry, propMaterial);
+                prop1.rotation.z = Math.PI / 2;
+                prop1.position.set(-0.9, 0.1, 0.3);
+                group.add(prop1);
+                
+                const prop2 = new THREE.Mesh(propGeometry, propMaterial);
+                prop2.rotation.z = Math.PI / 2;
+                prop2.position.set(-0.9, 0.1, -0.3);
+                group.add(prop2);
+                
+                return group;
+            };
+
+            // GLB model yükleme
+            const loader = new GLTFLoader();
+            const modelPath = '../models/beeking.glb';
+            
+            console.log('Model yükleniyor:', modelPath);
+            
             loader.load(
-                '../models/beeking.glb',
+                modelPath,
                 function(gltf) {
+                    console.log('Model başarıyla yüklendi!', gltf);
                     model = gltf.scene;
                     
                     // Model boyutunu ayarla
@@ -361,12 +416,24 @@
                     canvas.style.display = 'block';
                 },
                 function(xhr) {
-                    const percent = (xhr.loaded / xhr.total * 100).toFixed(0);
+                    const percent = Math.round((xhr.loaded / xhr.total) * 100);
+                    console.log(`Model yükleniyor: ${percent}%`);
                     loadingDiv.querySelector('p').textContent = `3D Model yükleniyor... ${percent}%`;
                 },
                 function(error) {
                     console.error('Model yükleme hatası:', error);
-                    loadingDiv.innerHTML = '<p style="color: #ff1744;">Model yüklenemedi. Lütfen models/beeking.glb dosyasının mevcut olduğundan emin olun.</p>';
+                    console.warn('Placeholder model gösteriliyor');
+                    
+                    // Placeholder göster
+                    model = createPlaceholderModel();
+                    scene.add(model);
+                    
+                    loadingDiv.innerHTML = '<p style="color: #ffa726;">GLB dosyası bulunamadı veya hatalı.<br>Temsili model gösteriliyor.</p>';
+                    
+                    setTimeout(() => {
+                        loadingDiv.style.display = 'none';
+                        canvas.style.display = 'block';
+                    }, 2000);
                 }
             );
 
@@ -451,7 +518,7 @@
             renderer.render(scene, camera);
         }
 
-        function resetCamera() {
+        window.resetCamera = function() {
             camera.position.set(3, 2, 3);
             camera.lookAt(0, 0, 0);
             if (model) {
@@ -459,12 +526,12 @@
             }
         }
 
-        function toggleAutoRotate() {
+        window.toggleAutoRotate = function() {
             autoRotate = !autoRotate;
             event.target.style.background = autoRotate ? 'rgba(255, 23, 68, 0.3)' : 'rgba(255, 255, 255, 0.1)';
         }
 
-        function toggleWireframe() {
+        window.toggleWireframe = function() {
             wireframeMode = !wireframeMode;
             if (model) {
                 model.traverse((child) => {
@@ -476,8 +543,9 @@
             event.target.style.background = wireframeMode ? 'rgba(255, 23, 68, 0.3)' : 'rgba(255, 255, 255, 0.1)';
         }
 
-        // Sayfa yüklendiğinde 3D viewer'ı başlat
+        // Sayfa yüklendiğinde başlat
         window.addEventListener('load', init3DViewer);
     </script>
+    <script src="../js/main.js"></script>
 </body>
 </html>
