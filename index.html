@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <nav class="navbar">
+    
+      <nav class="navbar">
     <style>
         .navbar {
             display: flex;
@@ -24,7 +25,7 @@
 
         .logo {
             display: flex;
-            align-items: baseline; /* 🔑 yazı baz çizgisine hizala */
+            align-items: center; /* 🔑 TAM MERKEZ */
             gap: 10px;
             font-size: 2rem;
             font-weight: 800;
@@ -37,17 +38,21 @@
             height: 44px;
             width: auto;
             object-fit: contain;
-            position: relative;
-            top: 6px; /* 🔽 logo 1 tık aşağı – simetri */
+            display: block; /* 🔑 hizalama hatasını önler */
         }
 
         .logo-text {
-            display: inline-block;
-            white-space: nowrap; /* 🔑 ITUAS asla ayrılmasın */
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap; /* 🔑 ITUAS ASLA AYRILMAZ */
+        }
+
+        .logo-text .itu {
+            color: #ffffff; /* ITU beyaz */
         }
 
         .logo-text .as {
-            color: #ff1744;
+            color: #ff1744; /* AS kırmızı */
         }
 
         .nav-links {
@@ -68,6 +73,28 @@
         .nav-links li a:hover {
             color: #ff1744;
         }
+    </style>
+
+    <!-- LOGO + YAZI -->
+    <div class="logo" onclick="location.href='index.html'">
+        <img src="images/ituas-logo.png" alt="ITUAS Logo">
+        <span class="logo-text">
+            <span class="itu">ITU</span><span class="as">AS</span>
+        </span>
+    </div>
+
+    <!-- MENÜ -->
+    <ul class="nav-links">
+        <li><a href="#home">ANA SAYFA</a></li>
+        <li><a href="#about">HAKKIMIZDA</a></li>
+        <li><a href="#timeline">HİKAYE</a></li>
+        <li><a href="#vehicles">ARAÇLAR</a></li>
+        <li><a href="#team">EKİP</a></li>
+        <li><a href="#sponsors">SPONSORLAR</a></li>
+    </ul>
+</nav>
+
+          
     </style>
 
     <!-- LOGO + YAZI -->
