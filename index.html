@@ -16,16 +16,20 @@
             justify-content: space-between;
             align-items: center;
             padding: 1.2rem 3rem;
-            background: rgba(10, 25, 41, 0.75);
+            background: rgba(10, 25, 41, 0.65);
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
+
+            /* 🔥 Fade-in animasyon başlangıcı */
+            opacity: 0;
+            transition: opacity 1.5s ease;
         }
 
         .logo {
             display: flex;
-            align-items: center; /* 🔑 TAM MERKEZ */
+            align-items: center; /* 🔑 Logo + yazı TAM merkez */
             gap: 10px;
             font-size: 2rem;
             font-weight: 800;
@@ -38,21 +42,21 @@
             height: 44px;
             width: auto;
             object-fit: contain;
-            display: block; /* 🔑 hizalama hatasını önler */
+            display: block; /* hizalama hatasını önler */
         }
 
         .logo-text {
             display: inline-flex;
             align-items: center;
-            white-space: nowrap; /* 🔑 ITUAS ASLA AYRILMAZ */
+            white-space: nowrap; /* ITUAS asla ayrılmaz */
         }
 
         .logo-text .itu {
-            color: #ffffff; /* ITU beyaz */
+            color: #ffffff;
         }
 
         .logo-text .as {
-            color: #ff1744; /* AS kırmızı */
+            color: #ff1744;
         }
 
         .nav-links {
@@ -92,10 +96,14 @@
         <li><a href="#team">EKİP</a></li>
         <li><a href="#sponsors">SPONSORLAR</a></li>
     </ul>
+
+    <!-- 🔑 SAYFA YÜKLENİNCE FADE-IN -->
+    <script>
+        window.addEventListener("load", () => {
+            document.querySelector(".navbar").style.opacity = "1";
+        });
+    </script>
 </nav>
-
-
-
 
     <section id="home" class="hero" style="position: relative; overflow: hidden;">
 
