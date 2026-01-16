@@ -308,7 +308,7 @@ function init3DViewer() {
 
     /* SCENE */
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0a1929);
+    scene.background = null;
 
     /* CAMERA */
     camera = new THREE.PerspectiveCamera(
@@ -334,7 +334,6 @@ function init3DViewer() {
     dirLight.position.set(5, 5, 5);
     scene.add(dirLight);
 
-    scene.add(new THREE.AxesHelper(2));
 
     /* LOAD MODEL */
     const loader = new GLTFLoader();
