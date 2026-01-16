@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/ituas-logo.png">
     <title>ITUAS - İTÜ Otonom Tekne Takımı</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo" onclick="location.href='index.html'">IT<span>UAS</span></div>
+        <div class="logo" onclick="location.href='index.html'">ITU<span>AS</span></div>
         <ul class="nav-links">
             <li><a href="#home">ANA SAYFA</a></li>
             <li><a href="#about">HAKKIMIZDA</a></li>
@@ -19,13 +20,36 @@
         </ul>
     </nav>
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>IT<span>UAS</span></h1>
-            <p>İTÜ Otonom Tekne Takımı</p>
-            <p class="tagline">Towards the Horizon of the Sea</p>
-        </div>
-    </section>
+    <section id="home" class="hero" style="position: relative; overflow: hidden;">
+
+    <!-- ARKA PLAN GÖRSEL -->
+    <div style="
+        position: absolute;
+        inset: 0;
+        background: url('images/golet.jpg') center/cover no-repeat;
+        opacity: 0.1;
+        z-index: 0;
+    "></div>
+
+    <!-- ÖN İÇERİK -->
+    <div class="hero-content" style="position: relative; z-index: 1;">
+
+        <img 
+            src="images/ituas-logo.png"
+            alt="ITUAS Logo"
+            style="
+                width: 180px;
+                margin-bottom: -25px;
+            "
+        >
+
+        <h1>ITU<span>AS</span></h1>
+        <p>İTÜ Otonom Tekne Takımı</p>
+        <p class="tagline">Towards the Horizon of the Sea</p>
+    </div>
+
+</section>
+
 
     <div class="stats">
         <div class="stat-item">
