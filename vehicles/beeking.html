@@ -294,269 +294,147 @@
         }
     </script>
     <script type="module">
-        import * as THREE from 'three';
-        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-        
-        let scene, camera, renderer, model, controls;
-        let autoRotate = false;
-        let wireframeMode = false;
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-        function init3DViewer() {
-            const canvas = document.getElementById('model-canvas');
-            const loadingDiv = document.getElementById('loading');
+let scene, camera, renderer, model;
+let autoRotate = false;
+let wireframeMode = false;
 
-            // Scene oluştur
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x0a1929);
+function init3DViewer() {
+    const canvas = document.getElementById('model-canvas');
+    const loadingDiv = document.getElementById('loading');
+    const container = canvas.parentElement;
 
-            // Camera
-            camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-            camera.position.set(3, 2, 3);
+    /* SCENE */
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a1929);
+
+    /* CAMERA */
+    camera = new THREE.PerspectiveCamera(
+        45,
+        container.clientWidth / 500,
+        0.1,
+        1000
+    );
+
+    /* RENDERER */
+    renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        antialias: true,
+        alpha: true
+    });
+    renderer.setSize(container.clientWidth, 500);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    /* LIGHTS */
+    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+    dirLight.position.set(5, 5, 5);
+    scene.add(dirLight);
+
+    scene.add(new THREE.AxesHelper(2));
+
+    /* LOAD MODEL */
+    const loader = new GLTFLoader();
+    const modelPath = '../models/beeking.glb';
+
+    loader.load(
+        modelPath,
+        (gltf) => {
+            loadingDiv.style.display = 'none';
+            canvas.style.display = 'block';
+
+            model = gltf.scene;
+
+            const box = new THREE.Box3().setFromObject(model);
+            const size = box.getSize(new THREE.Vector3());
+            const center = box.getCenter(new THREE.Vector3());
+
+            const maxDim = Math.max(size.x, size.y, size.z);
+            const scale = 2 / maxDim;
+
+            model.scale.setScalar(scale);
+            model.position.sub(center.multiplyScalar(scale));
+
+            scene.add(model);
+
+            /* 📌 KAMERA OTOMATİK AYAR */
+            camera.position.set(0, 1.5, 4);
             camera.lookAt(0, 0, 0);
-
-            // Renderer
-            renderer = new THREE.WebGLRenderer({ 
-                canvas: canvas, 
-                antialias: true,
-                alpha: true 
-            });
-            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.shadowMap.enabled = true;
-
-            // Işıklar
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-            scene.add(ambientLight);
-
-            const directionalLight1 = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight1.position.set(5, 5, 5);
-            scene.add(directionalLight1);
-
-            const directionalLight2 = new THREE.DirectionalLight(0x2196f3, 0.4);
-            directionalLight2.position.set(-5, 3, -5);
-            scene.add(directionalLight2);
-
-            const pointLight = new THREE.PointLight(0xff1744, 0.5);
-            pointLight.position.set(0, 3, 0);
-            scene.add(pointLight);
-
-            // Grid helper
-            const gridHelper = new THREE.GridHelper(10, 10, 0x444444, 0x222222);
-            scene.add(gridHelper);
-
-            // Placeholder model oluştur
-            const createPlaceholderModel = () => {
-                const group = new THREE.Group();
-                
-                // Tekne gövdesi
-                const hullGeometry = new THREE.BoxGeometry(2, 0.5, 0.8);
-                const hullMaterial = new THREE.MeshPhongMaterial({ 
-                    color: 0x2196f3,
-                    shininess: 100 
-                });
-                const hull = new THREE.Mesh(hullGeometry, hullMaterial);
-                hull.position.y = 0.25;
-                group.add(hull);
-                
-                // Üst yapı
-                const cabinGeometry = new THREE.BoxGeometry(1, 0.4, 0.6);
-                const cabinMaterial = new THREE.MeshPhongMaterial({ 
-                    color: 0xff1744,
-                    shininess: 100 
-                });
-                const cabin = new THREE.Mesh(cabinGeometry, cabinMaterial);
-                cabin.position.set(0, 0.7, 0);
-                group.add(cabin);
-                
-                // Pervaneler
-                const propGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.3, 16);
-                const propMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
-                
-                const prop1 = new THREE.Mesh(propGeometry, propMaterial);
-                prop1.rotation.z = Math.PI / 2;
-                prop1.position.set(-0.9, 0.1, 0.3);
-                group.add(prop1);
-                
-                const prop2 = new THREE.Mesh(propGeometry, propMaterial);
-                prop2.rotation.z = Math.PI / 2;
-                prop2.position.set(-0.9, 0.1, -0.3);
-                group.add(prop2);
-                
-                return group;
-            };
-
-            // GLB model yükleme
-            const loader = new GLTFLoader();
-            const modelPath = '../models/beeking.glb';
-            
-            console.log('Model yükleniyor:', modelPath);
-            
-            loader.load(
-                modelPath,
-                function(gltf) {
-                    console.log('Model başarıyla yüklendi!', gltf);
-                    
-                    // Loading'i hemen gizle, canvas'ı göster
-                    loadingDiv.style.display = 'none';
-                    canvas.style.display = 'block';
-                    
-                    model = gltf.scene;
-                    
-                    // Model varsa işle
-                    if (model) {
-                        // Model boyutunu ayarla
-                        const box = new THREE.Box3().setFromObject(model);
-                        const center = box.getCenter(new THREE.Vector3());
-                        const size = box.getSize(new THREE.Vector3());
-                        
-                        console.log('Model boyutu:', size);
-                        console.log('Model merkezi:', center);
-                        
-                        const maxDim = Math.max(size.x, size.y, size.z);
-                        const scale = 2 / maxDim;
-                        
-                        console.log('Scale faktörü:', scale);
-                        
-                        model.scale.multiplyScalar(scale);
-                        model.position.x = -center.x * scale;
-                        model.position.y = -center.y * scale;
-                        model.position.z = -center.z * scale;
-
-                        scene.add(model);
-                        console.log('Model sahneye eklendi');
-                    }
-                },
-                function(xhr) {
-                    const percent = Math.round((xhr.loaded / xhr.total) * 100);
-                    console.log(`Model yükleniyor: ${percent}%`);
-                    loadingDiv.querySelector('p').textContent = `3D Model yükleniyor... ${percent}%`;
-                },
-                function(error) {
-                    console.error('Model yükleme hatası:', error);
-                    console.warn('Placeholder model gösteriliyor');
-                    
-                    // Placeholder göster
-                    model = createPlaceholderModel();
-                    scene.add(model);
-                    
-                    loadingDiv.innerHTML = '<p style="color: #ffa726;">GLB dosyası bulunamadı veya hatalı.<br>Temsili model gösteriliyor.</p>';
-                    
-                    setTimeout(() => {
-                        loadingDiv.style.display = 'none';
-                        canvas.style.display = 'block';
-                    }, 2000);
-                }
-            );
-
-            // Mouse kontrolü
-            let isDragging = false;
-            let previousMousePosition = { x: 0, y: 0 };
-
-            canvas.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                previousMousePosition = { x: e.clientX, y: e.clientY };
-            });
-
-            canvas.addEventListener('mousemove', (e) => {
-                if (isDragging && model) {
-                    const deltaX = e.clientX - previousMousePosition.x;
-                    const deltaY = e.clientY - previousMousePosition.y;
-
-                    model.rotation.y += deltaX * 0.01;
-                    model.rotation.x += deltaY * 0.01;
-
-                    previousMousePosition = { x: e.clientX, y: e.clientY };
-                }
-            });
-
-            canvas.addEventListener('mouseup', () => {
-                isDragging = false;
-            });
-
-            canvas.addEventListener('mouseleave', () => {
-                isDragging = false;
-            });
-
-            // Zoom
-            canvas.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                const zoomSpeed = 0.1;
-                camera.position.z += e.deltaY * 0.01 * zoomSpeed;
-                camera.position.z = Math.max(1, Math.min(10, camera.position.z));
-            });
-
-            // Touch desteği
-            let touchStartDistance = 0;
-            canvas.addEventListener('touchstart', (e) => {
-                if (e.touches.length === 2) {
-                    touchStartDistance = Math.hypot(
-                        e.touches[0].clientX - e.touches[1].clientX,
-                        e.touches[0].clientY - e.touches[1].clientY
-                    );
-                }
-            });
-
-            canvas.addEventListener('touchmove', (e) => {
-                if (e.touches.length === 2) {
-                    const touchDistance = Math.hypot(
-                        e.touches[0].clientX - e.touches[1].clientX,
-                        e.touches[0].clientY - e.touches[1].clientY
-                    );
-                    const delta = touchStartDistance - touchDistance;
-                    camera.position.z += delta * 0.01;
-                    camera.position.z = Math.max(1, Math.min(10, camera.position.z));
-                    touchStartDistance = touchDistance;
-                }
-            });
-
-            // Responsive
-            window.addEventListener('resize', () => {
-                camera.aspect = canvas.clientWidth / canvas.clientHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-            });
-
-            animate();
+        },
+        (xhr) => {
+            const p = Math.round((xhr.loaded / xhr.total) * 100);
+            loadingDiv.querySelector('p').textContent = `3D Model yükleniyor... ${p}%`;
+        },
+        (error) => {
+            console.error(error);
+            loadingDiv.innerHTML = '<p style="color:#ffa726">Model yüklenemedi</p>';
         }
+    );
 
-        function animate() {
-            requestAnimationFrame(animate);
+    /* CONTROLS */
+    let dragging = false;
+    let lastX = 0;
+    let lastY = 0;
 
-            if (autoRotate && model) {
-                model.rotation.y += 0.005;
-            }
+    canvas.addEventListener('mousedown', e => {
+        dragging = true;
+        lastX = e.clientX;
+        lastY = e.clientY;
+    });
 
-            renderer.render(scene, camera);
-        }
+    canvas.addEventListener('mousemove', e => {
+        if (!dragging || !model) return;
+        model.rotation.y += (e.clientX - lastX) * 0.01;
+        model.rotation.x += (e.clientY - lastY) * 0.01;
+        lastX = e.clientX;
+        lastY = e.clientY;
+    });
 
-        window.resetCamera = function() {
-            camera.position.set(3, 2, 3);
-            camera.lookAt(0, 0, 0);
-            if (model) {
-                model.rotation.set(0, 0, 0);
-            }
-        }
+    canvas.addEventListener('mouseup', () => dragging = false);
+    canvas.addEventListener('mouseleave', () => dragging = false);
 
-        window.toggleAutoRotate = function() {
-            autoRotate = !autoRotate;
-            event.target.style.background = autoRotate ? 'rgba(255, 23, 68, 0.3)' : 'rgba(255, 255, 255, 0.1)';
-        }
+    canvas.addEventListener('wheel', e => {
+        e.preventDefault();
+        camera.position.z += e.deltaY * 0.002;
+        camera.position.z = Math.min(Math.max(camera.position.z, 2), 10);
+    });
 
-        window.toggleWireframe = function() {
-            wireframeMode = !wireframeMode;
-            if (model) {
-                model.traverse((child) => {
-                    if (child.isMesh) {
-                        child.material.wireframe = wireframeMode;
-                    }
-                });
-            }
-            event.target.style.background = wireframeMode ? 'rgba(255, 23, 68, 0.3)' : 'rgba(255, 255, 255, 0.1)';
-        }
+    window.addEventListener('resize', () => {
+        camera.aspect = container.clientWidth / 500;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, 500);
+    });
 
-        // Sayfa yüklendiğinde başlat
-        window.addEventListener('load', init3DViewer);
-    </script>
+    animate();
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    if (autoRotate && model) model.rotation.y += 0.005;
+    renderer.render(scene, camera);
+}
+
+window.resetCamera = () => {
+    camera.position.set(0, 1.5, 4);
+    camera.lookAt(0, 0, 0);
+    if (model) model.rotation.set(0, 0, 0);
+};
+
+window.toggleAutoRotate = () => autoRotate = !autoRotate;
+
+window.toggleWireframe = () => {
+    wireframeMode = !wireframeMode;
+    if (!model) return;
+    model.traverse(c => {
+        if (c.isMesh) c.material.wireframe = wireframeMode;
+    });
+};
+
+window.addEventListener('load', init3DViewer);
+</script>
     <script src="../js/main.js"></script>
 </body>
 </html>
