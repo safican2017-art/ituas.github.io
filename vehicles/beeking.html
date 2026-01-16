@@ -395,25 +395,36 @@
                 modelPath,
                 function(gltf) {
                     console.log('Model başarıyla yüklendi!', gltf);
-                    model = gltf.scene;
                     
-                    // Model boyutunu ayarla
-                    const box = new THREE.Box3().setFromObject(model);
-                    const center = box.getCenter(new THREE.Vector3());
-                    const size = box.getSize(new THREE.Vector3());
-                    
-                    const maxDim = Math.max(size.x, size.y, size.z);
-                    const scale = 2 / maxDim;
-                    model.scale.multiplyScalar(scale);
-                    
-                    model.position.x = -center.x * scale;
-                    model.position.y = -center.y * scale;
-                    model.position.z = -center.z * scale;
-
-                    scene.add(model);
-                    
+                    // Loading'i hemen gizle, canvas'ı göster
                     loadingDiv.style.display = 'none';
                     canvas.style.display = 'block';
+                    
+                    model = gltf.scene;
+                    
+                    // Model varsa işle
+                    if (model) {
+                        // Model boyutunu ayarla
+                        const box = new THREE.Box3().setFromObject(model);
+                        const center = box.getCenter(new THREE.Vector3());
+                        const size = box.getSize(new THREE.Vector3());
+                        
+                        console.log('Model boyutu:', size);
+                        console.log('Model merkezi:', center);
+                        
+                        const maxDim = Math.max(size.x, size.y, size.z);
+                        const scale = 2 / maxDim;
+                        
+                        console.log('Scale faktörü:', scale);
+                        
+                        model.scale.multiplyScalar(scale);
+                        model.position.x = -center.x * scale;
+                        model.position.y = -center.y * scale;
+                        model.position.z = -center.z * scale;
+
+                        scene.add(model);
+                        console.log('Model sahneye eklendi');
+                    }
                 },
                 function(xhr) {
                     const percent = Math.round((xhr.loaded / xhr.total) * 100);
