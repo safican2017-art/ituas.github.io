@@ -24,21 +24,29 @@
 
         .logo {
             display: flex;
-            align-items: center;
-            gap: 12px;
+            align-items: baseline; /* 🔑 yazı baz çizgisine hizala */
+            gap: 10px;
             font-size: 2rem;
             font-weight: 800;
             color: white;
             cursor: pointer;
+            line-height: 1;
         }
 
         .logo img {
-            height: 44px;      /* ITUAS yazısı ile orantılı */
+            height: 44px;
             width: auto;
             object-fit: contain;
+            position: relative;
+            top: 6px; /* 🔽 logo 1 tık aşağı – simetri */
         }
 
-        .logo span {
+        .logo-text {
+            display: inline-block;
+            white-space: nowrap; /* 🔑 ITUAS asla ayrılmasın */
+        }
+
+        .logo-text .as {
             color: #ff1744;
         }
 
@@ -46,6 +54,8 @@
             list-style: none;
             display: flex;
             gap: 2rem;
+            margin: 0;
+            padding: 0;
         }
 
         .nav-links li a {
@@ -63,7 +73,7 @@
     <!-- LOGO + YAZI -->
     <div class="logo" onclick="location.href='index.html'">
         <img src="images/ituas-logo.png" alt="ITUAS Logo">
-        ITU<span>AS</span>
+        <span class="logo-text">ITU<span class="as">AS</span></span>
     </div>
 
     <!-- MENÜ -->
@@ -76,6 +86,7 @@
         <li><a href="#sponsors">SPONSORLAR</a></li>
     </ul>
 </nav>
+
 
 
     <section id="home" class="hero" style="position: relative; overflow: hidden;">
