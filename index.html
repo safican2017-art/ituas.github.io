@@ -9,16 +9,74 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo" onclick="location.href='index.html'">ITU<span>AS</span></div>
-        <ul class="nav-links">
-            <li><a href="#home">ANA SAYFA</a></li>
-            <li><a href="#about">HAKKIMIZDA</a></li>
-            <li><a href="#timeline">HİKAYE</a></li>
-            <li><a href="#vehicles">ARAÇLAR</a></li>
-            <li><a href="#team">EKİP</a></li>
-            <li><a href="#sponsors">SPONSORLAR</a></li>
-        </ul>
-    </nav>
+    <style>
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 3rem;
+            background: rgba(10, 25, 41, 0.95);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            cursor: pointer;
+        }
+
+        .logo img {
+            height: 44px;      /* ITUAS yazısı ile orantılı */
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo span {
+            color: #ff1744;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links li a:hover {
+            color: #ff1744;
+        }
+    </style>
+
+    <!-- LOGO + YAZI -->
+    <div class="logo" onclick="location.href='index.html'">
+        <img src="images/ituas-logo.png" alt="ITUAS Logo">
+        ITU<span>AS</span>
+    </div>
+
+    <!-- MENÜ -->
+    <ul class="nav-links">
+        <li><a href="#home">ANA SAYFA</a></li>
+        <li><a href="#about">HAKKIMIZDA</a></li>
+        <li><a href="#timeline">HİKAYE</a></li>
+        <li><a href="#vehicles">ARAÇLAR</a></li>
+        <li><a href="#team">EKİP</a></li>
+        <li><a href="#sponsors">SPONSORLAR</a></li>
+    </ul>
+</nav>
+
 
     <section id="home" class="hero" style="position: relative; overflow: hidden;">
 
@@ -26,7 +84,7 @@
     <div style="
         position: absolute;
         inset: 0;
-        background: url('images/golet.jpg') center/cover no-repeat;
+        background: url('images/golet.jpeg') center/cover no-repeat;
         opacity: 0.1;
         z-index: 0;
     "></div>
