@@ -392,50 +392,53 @@
             console.log('Model yükleniyor:', modelPath);
             
             loader.load(
-                modelPath,
-                function(gltf) {
-                    console.log('Model başarıyla yüklendi!', gltf);
-                    model = gltf.scene;
-                    
-                    // Model boyutunu ayarla
-                    const box = new THREE.Box3().setFromObject(model);
-                    const center = box.getCenter(new THREE.Vector3());
-                    const size = box.getSize(new THREE.Vector3());
-                    
-                    const maxDim = Math.max(size.x, size.y, size.z);
-                    const scale = 2 / maxDim;
-                    model.scale.multiplyScalar(scale);
-                    
-                    model.position.x = -center.x * scale;
-                    model.position.y = -center.y * scale;
-                    model.position.z = -center.z * scale;
+  modelPath,
+  function (gltf) {
+    console.log("Model başarıyla yüklendi!", gltf);
 
-                    scene.add(model);
-                    
-                    loadingDiv.style.display = 'none';
-                    canvas.style.display = 'block';
-                },
-                function(xhr) {
-                    const percent = Math.round((xhr.loaded / xhr.total) * 100);
-                    console.log(`Model yükleniyor: ${percent}%`);
-                    loadingDiv.querySelector('p').textContent = `3D Model yükleniyor... ${percent}%`;
-                },
-                function(error) {
-                    console.error('Model yükleme hatası:', error);
-                    console.warn('Placeholder model gösteriliyor');
-                    
-                    // Placeholder göster
-                    model = createPlaceholderModel();
-                    scene.add(model);
-                    
-                    loadingDiv.innerHTML = '<p style="color: #ffa726;">GLB dosyası bulunamadı veya hatalı.<br>Temsili model gösteriliyor.</p>';
-                    
-                    setTimeout(() => {
-                        loadingDiv.style.display = 'none';
-                        canvas.style.display = 'block';
-                    }, 2000);
-                }
-            );
+    model = gltf.scene;
+
+    // 1️⃣ Sahneye ekle
+    scene.add(model);
+
+    // 2️⃣ Bounding box hesapla
+    const box = new THREE.Box3().setFromObject(model);
+    const size = box.getSize(new THREE.Vector3());
+    const center = box.getCenter(new THREE.Vector3());
+
+    // 3️⃣ Ortala
+    model.position.sub(center);
+
+    // 4️⃣ Ölçekle (AUTO FIT)
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const scale = 2.5 / maxDim;
+    model.scale.setScalar(scale);
+
+    // 5️⃣ Kamera otomatik ayarla
+    camera.position.set(0, 1.5, 4);
+    camera.lookAt(0, 0, 0);
+
+    // 6️⃣ Materyal güvenliği
+    model.traverse((child) => {
+      if (child.isMesh) {
+        child.material.side = THREE.DoubleSide;
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+
+    // 7️⃣ Grid'i geçici kapat (test için)
+    // scene.remove(gridHelper);
+
+    loadingDiv.style.display = "none";
+    canvas.style.display = "block";
+  },
+  undefined,
+  function (error) {
+    console.error("Model yükleme hatası:", error);
+  }
+);
+
 
             // Mouse kontrolü
             let isDragging = false;
