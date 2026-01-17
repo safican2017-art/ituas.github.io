@@ -8,6 +8,34 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <style>
+/* ===============================
+   ARAÇ KARTI ARKA PLAN GÖRSELLERİ
+   =============================== */
+
+.vehicle-card {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Arka plan fotoğraf */
+.vehicle-bg {
+    position: absolute;
+    inset: 0;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.12;          /* 🔑 transparanlık */
+    z-index: 0;
+}
+
+/* Yazılar üstte kalsın */
+.vehicle-header,
+.vehicle-body {
+    position: relative;
+    z-index: 1;
+}
+</style>
+
     
      <nav class="navbar">
     <style>
@@ -249,6 +277,9 @@
 
         <div class="vehicles-grid">
             <div class="vehicle-card" onclick="location.href='vehicles/beeast.html'">
+                <div class="vehicle-bg" style="
+        background-image: url('images/vehicles/beeast.png');
+    "></div>
                 <div class="vehicle-header">
                     <div class="vehicle-icon">🚤</div>
                     <h3 class="vehicle-name">BeeAst</h3>
@@ -259,6 +290,8 @@
             </div>
 
             <div class="vehicle-card" onclick="location.href='vehicles/beeking.html'">
+                <div class="vehicle-bg" style="background-image:url('images/vehicles/beeking.png')"></div>
+
                 <div class="vehicle-header">
                     <div class="vehicle-icon">⛵</div>
                     <h3 class="vehicle-name">BeeKing</h3>
@@ -269,6 +302,8 @@
             </div>
 
             <div class="vehicle-card" onclick="location.href='vehicles/beerov.html'">
+                <div class="vehicle-bg" style="background-image:url('images/vehicles/beerov.png')"></div>
+
                 <div class="vehicle-header">
                     <div class="vehicle-icon">🤿</div>
                     <h3 class="vehicle-name">BeeROV</h3>
@@ -279,6 +314,8 @@
             </div>
 
             <div class="vehicle-card" onclick="location.href='vehicles/beequeen.html'">
+                <div class="vehicle-bg" style="background-image:url('images/vehicles/beequeen.png')"></div>
+
                 <div class="vehicle-header">
                     <div class="vehicle-icon">👑</div>
                     <h3 class="vehicle-name">BeeQueen</h3>
