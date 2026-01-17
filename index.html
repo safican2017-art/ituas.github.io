@@ -8,36 +8,48 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <style>
+   <style>
 /* ===============================
-   ARAÇ KARTI ARKA PLAN GÖRSELLERİ
+   ARAÇ KARTI ARKA PLAN GÖRSELLERİ (KESİN ÇÖZÜM)
    =============================== */
 
 .vehicle-card {
     position: relative;
     overflow: hidden;
-    background: transparent !important;
-
 }
 
-/* Arka plan fotoğraf */
-.vehicle-bg {
+/* FOTOĞRAF KATMANI */
+.vehicle-card::before {
+    content: "";
     position: absolute;
     inset: 0;
     background-position: center;
     background-size: cover;
-    opacity: 0.12;          /* 🔑 transparanlık */
+    opacity: 0.15;
     z-index: 0;
 }
 
-/* Yazılar üstte kalsın */
+/* HER ARACA ÖZEL FOTO */
+.vehicle-card.beeast::before {
+    background-image: url('images/vehicles/beeast.png');
+}
+.vehicle-card.beeking::before {
+    background-image: url('images/vehicles/beeking.png');
+}
+.vehicle-card.beerov::before {
+    background-image: url('images/vehicles/beerov.png');
+}
+.vehicle-card.beequeen::before {
+    background-image: url('images/vehicles/beequeen.png');
+}
+
+/* YAZILAR ÜSTE */
 .vehicle-header,
 .vehicle-body {
     position: relative;
     z-index: 1;
 }
 </style>
-
     
      <nav class="navbar">
     <style>
@@ -279,9 +291,7 @@
 
         <div class="vehicles-grid">
             <div class="vehicle-card" onclick="location.href='vehicles/beeast.html'">
-                <div class="vehicle-bg" style="
-        background-image: url('images/vehicles/beeast.png');
-    "></div>
+                <div class="vehicle-card beeast" onclick="location.href='vehicles/beeast.html'">
                 <div class="vehicle-header">
                     <div class="vehicle-icon">🚤</div>
                     <h3 class="vehicle-name">BeeAst</h3>
@@ -292,8 +302,7 @@
             </div>
 
             <div class="vehicle-card" onclick="location.href='vehicles/beeking.html'">
-                <div class="vehicle-bg" style="background-image:url('images/vehicles/beeking.png')"></div>
-
+               <div class="vehicle-card beeking" onclick="location.href='vehicles/beeking.html'">
                 <div class="vehicle-header">
                     <div class="vehicle-icon">⛵</div>
                     <h3 class="vehicle-name">BeeKing</h3>
@@ -304,8 +313,7 @@
             </div>
 
             <div class="vehicle-card" onclick="location.href='vehicles/beerov.html'">
-                <div class="vehicle-bg" style="background-image:url('images/vehicles/beerov.png')"></div>
-
+                <div class="vehicle-card beerov" onclick="location.href='vehicles/beerov.html'">
                 <div class="vehicle-header">
                     <div class="vehicle-icon">🤿</div>
                     <h3 class="vehicle-name">BeeROV</h3>
@@ -316,7 +324,7 @@
             </div>
 
             <div class="vehicle-card" onclick="location.href='vehicles/beequeen.html'">
-                <div class="vehicle-bg" style="background-image:url('images/vehicles/beequeen.png')"></div>
+                <div class="vehicle-card beequeen" onclick="location.href='vehicles/beequeen.html'">
 
                 <div class="vehicle-header">
                     <div class="vehicle-icon">👑</div>
