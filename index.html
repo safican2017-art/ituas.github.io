@@ -8,48 +8,6 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-   <style>
-/* ===============================
-   ARAÇ KARTI ARKA PLAN GÖRSELLERİ (KESİN ÇÖZÜM)
-   =============================== */
-
-.vehicle-card {
-    position: relative;
-    overflow: hidden;
-}
-
-/* FOTOĞRAF KATMANI */
-.vehicle-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-position: center;
-    background-size: cover;
-    opacity: 0.15;
-    z-index: 0;
-}
-
-/* HER ARACA ÖZEL FOTO */
-.vehicle-card.beeast::before {
-    background-image: url('images/vehicles/beeast.png');
-}
-.vehicle-card.beeking::before {
-    background-image: url('images/vehicles/beeking.png');
-}
-.vehicle-card.beerov::before {
-    background-image: url('images/vehicles/beerov.png');
-}
-.vehicle-card.beequeen::before {
-    background-image: url('images/vehicles/beequeen.png');
-}
-
-/* YAZILAR ÜSTE */
-.vehicle-header,
-.vehicle-body {
-    position: relative;
-    z-index: 1;
-}
-</style>
     
      <nav class="navbar">
     <style>
@@ -286,56 +244,122 @@
     </section>
 
     <section id="vehicles" class="section section-dark">
-        <h2 class="section-title">ARAÇLARIMIZ</h2>
-        <p class="section-subtitle">Yenilikçi tasarım ve teknoloji</p>
+    <h2 class="section-title">ARAÇLARIMIZ</h2>
+    <p class="section-subtitle">Yenilikçi tasarım ve teknoloji</p>
 
-        <div class="vehicles-grid">
-            <div class="vehicle-card" onclick="location.href='vehicles/beeast.html'">
-                <div class="vehicle-card beeast" onclick="location.href='vehicles/beeast.html'">
+    <div class="vehicles-grid">
+
+        <!-- BeeAst -->
+        <div class="vehicle-card"
+             onclick="location.href='vehicles/beeast.html'"
+             style="position:relative; overflow:hidden; cursor:pointer;">
+
+            <div style="
+                position:absolute;
+                inset:0;
+                background:url('images/vehicles/beeast.png') center/cover no-repeat;
+                opacity:0.15;
+                z-index:0;
+                pointer-events:none;
+            "></div>
+
+            <div style="position:relative; z-index:1;">
                 <div class="vehicle-header">
                     <div class="vehicle-icon">🚤</div>
                     <h3 class="vehicle-name">BeeAst</h3>
                 </div>
                 <div class="vehicle-body">
-                    <p class="vehicle-desc">Otonom su üstü aracı. RobotX 2022'de En İyi Tasarım Ödülü kazandı.</p>
+                    <p class="vehicle-desc">
+                        Otonom su üstü aracı. RobotX 2022'de En İyi Tasarım Ödülü kazandı.
+                    </p>
                 </div>
             </div>
+        </div>
 
-            <div class="vehicle-card" onclick="location.href='vehicles/beeking.html'">
-               <div class="vehicle-card beeking" onclick="location.href='vehicles/beeking.html'">
+        <!-- BeeKing -->
+        <div class="vehicle-card"
+             onclick="location.href='vehicles/beeking.html'"
+             style="position:relative; overflow:hidden; cursor:pointer;">
+
+            <div style="
+                position:absolute;
+                inset:0;
+                background:url('images/vehicles/beeking.png') center/cover no-repeat;
+                opacity:0.15;
+                z-index:0;
+                pointer-events:none;
+            "></div>
+
+            <div style="position:relative; z-index:1;">
                 <div class="vehicle-header">
                     <div class="vehicle-icon">⛵</div>
                     <h3 class="vehicle-name">BeeKing</h3>
                 </div>
                 <div class="vehicle-body">
-                    <p class="vehicle-desc">Acil durumlar için uzaktan kontrol edilebilir su üstü aracı.</p>
+                    <p class="vehicle-desc">
+                        Acil durumlar için uzaktan kontrol edilebilir su üstü aracı.
+                    </p>
                 </div>
             </div>
+        </div>
 
-            <div class="vehicle-card" onclick="location.href='vehicles/beerov.html'">
-                <div class="vehicle-card beerov" onclick="location.href='vehicles/beerov.html'">
+        <!-- BeeROV -->
+        <div class="vehicle-card"
+             onclick="location.href='vehicles/beerov.html'"
+             style="position:relative; overflow:hidden; cursor:pointer;">
+
+            <div style="
+                position:absolute;
+                inset:0;
+                background:url('images/vehicles/beerov.png') center/cover no-repeat;
+                opacity:0.15;
+                z-index:0;
+                pointer-events:none;
+            "></div>
+
+            <div style="position:relative; z-index:1;">
                 <div class="vehicle-header">
                     <div class="vehicle-icon">🤿</div>
                     <h3 class="vehicle-name">BeeROV</h3>
                 </div>
                 <div class="vehicle-body">
-                    <p class="vehicle-desc">Tamamen 3D yazıcı ile üretilmiş su altı aracı.</p>
+                    <p class="vehicle-desc">
+                        Tamamen 3D yazıcı ile üretilmiş su altı aracı.
+                    </p>
                 </div>
             </div>
+        </div>
 
-            <div class="vehicle-card" onclick="location.href='vehicles/beequeen.html'">
-                <div class="vehicle-card beequeen" onclick="location.href='vehicles/beequeen.html'">
+        <!-- BeeQueen -->
+        <div class="vehicle-card"
+             onclick="location.href='vehicles/beequeen.html'"
+             style="position:relative; overflow:hidden; cursor:pointer;">
 
+            <div style="
+                position:absolute;
+                inset:0;
+                background:url('images/vehicles/beequeen.png') center/cover no-repeat;
+                opacity:0.15;
+                z-index:0;
+                pointer-events:none;
+            "></div>
+
+            <div style="position:relative; z-index:1;">
                 <div class="vehicle-header">
                     <div class="vehicle-icon">👑</div>
                     <h3 class="vehicle-name">BeeQueen</h3>
                 </div>
                 <div class="vehicle-body">
-                    <p class="vehicle-desc">Katamaran yapıda yüksek stabilite sağlayan araç.</p>
+                    <p class="vehicle-desc">
+                        Katamaran yapıda yüksek stabilite sağlayan araç.
+                    </p>
                 </div>
             </div>
         </div>
-    </section>
+
+    </div>
+</section>
+
 
     <section id="team" class="section">
         <h2 class="section-title">EKİPLERİMİZ</h2>
