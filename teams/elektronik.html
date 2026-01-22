@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elektronik Ekibi - ITUAS</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .team-member-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .team-leader-section {
+            max-width: 400px;
+            margin: 3rem auto;
+        }
+
+        .member-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            border: 2px solid var(--off-white);
+            position: relative;
+        }
+
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--red), var(--accent-blue));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .member-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .member-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(33, 150, 243, 0.3);
+            border-color: var(--accent-blue);
+        }
+
+        .member-photo {
+            width: 100%;
+            height: 320px;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--dark-blue) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .member-photo::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 23, 68, 0.1) 0%, transparent 70%);
+        }
+
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .member-info {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .member-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .member-role {
+            color: var(--red);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-department {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .leader-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--red);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(255, 23, 68, 0.4);
+        }
+
+        .team-description {
+            background: var(--off-white);
+            padding: 4rem 5%;
+            margin-top: 4rem;
+        }
+
+        .description-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .description-content h2 {
+            font-size: 2.5rem;
+            color: var(--navy);
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .description-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--red);
+        }
+
+        .description-content p {
+            font-size: 1.2rem;
+            line-height: 2;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .description-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .description-content li {
+            font-size: 1.1rem;
+            line-height: 2;
+            color: var(--gray);
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .description-content li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--red);
+            font-weight: bold;
+        }
+
+        .section-header {
+            text-align: center;
+            margin: 4rem 0 2rem 0;
+        }
+
+        .section-header h3 {
+            font-size: 2rem;
+            color: var(--navy);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+
+        .section-header h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--red);
+        }
+
+        @media (max-width: 768px) {
+            .team-member-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .member-photo {
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar scrolled">
+        <div class="logo" onclick="location.href='../index.html'">IT<span>UAS</span></div>
+        <ul class="nav-links">
+            <li><a href="../index.html">ANA SAYFA</a></li>
+            <li><a href="../index.html#about">HAKKIMIZDA</a></li>
+            <li><a href="../index.html#timeline">HİKAYE</a></li>
+            <li><a href="../index.html#vehicles">ARAÇLAR</a></li>
+            <li><a href="../index.html#team">EKİP</a></li>
+            <li><a href="../index.html#sponsors">SPONSORLAR</a></li>
+        </ul>
+    </nav>
+
+    <div class="detail-hero">
+        <div class="icon">⚡</div>
+        <h1>Elektronik Ekibi</h1>
+        <p style="font-size: 1.3rem; opacity: 0.9; margin-top: 1rem;">Sistemlerin Beyni ve Kalbi</p>
+    </div>
+
+    <div class="detail-content">
+        <a href="../index.html#team" class="back-btn">← Ekiplere Geri Dön</a>
+
+        <!-- EKİP LİDERİ -->
+        <div class="section-header">
+            <h3>👑 Ekip Lideri</h3>
+        </div>
+
+        <div class="team-leader-section">
+            <div class="member-card">
+                <div class="leader-badge">EKİP LİDERİ</div>
+                <div class="member-photo">
+                    <!-- Fotoğraf buraya gelecek -->
+                    <!-- <img src="../images/team/elektronik-leader.jpg" alt="Ekip Lideri"> -->
+                    ⚡
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Ahmet Yılmaz</h3>
+                    <p class="member-role">Elektronik Ekip Lideri</p>
+                    <p class="member-department">Elektronik ve Haberleşme Mühendisliği</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- EKİP ÜYELERİ -->
+        <div class="section-header">
+            <h3>⚙️ Ekip Üyeleri</h3>
+        </div>
+
+        <div class="team-member-grid">
+            <div class="member-card">
+                <div class="member-photo">
+                    <!-- <img src="../images/team/elektronik-member1.jpg" alt="Üye 1"> -->
+                    ⚡
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Mehmet Demir</h3>
+                    <p class="member-role">PCB Tasarım Sorumlusu</p>
+                    <p class="member-department">Elektrik-Elektronik Mühendisliği</p>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="member-photo">
+                    <!-- <img src="../images/team/elektronik-member2.jpg" alt="Üye 2"> -->
+                    ⚡
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Ayşe Kaya</h3>
+                    <p class="member-role">Güç Sistemleri Uzmanı</p>
+                    <p class="member-department">Elektrik Mühendisliği</p>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="member-photo">
+                    <!-- <img src="../images/team/elektronik-member3.jpg" alt="Üye 3"> -->
+                    ⚡
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Can Özkan</h3>
+                    <p class="member-role">Sensör Entegrasyonu</p>
+                    <p class="member-department">Mekatronik Mühendisliği</p>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="member-photo">
+                    <!-- <img src="../images/team/elektronik-member4.jpg" alt="Üye 4"> -->
+                    ⚡
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Zeynep Arslan</h3>
+                    <p class="member-role">Haberleşme Sistemleri</p>
+                    <p class="member-department">Elektronik ve Haberleşme Mühendisliği</p>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="member-photo">
+                    <!-- <img src="../images/team/elektronik-member5.jpg" alt="Üye 5"> -->
+                    ⚡
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Emre Şahin</h3>
+                    <p class="member-role">Test ve Kalite Kontrol</p>
+                    <p class="member-department">Elektrik-Elektronik Mühendisliği</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EKİP TANITIMI -->
+    <div class="team-description">
+        <div class="description-content">
+            <h2>Elektronik Ekibi Ne Yapar?</h2>
+            
+            <p>Elektronik ekibi, ITUAS'ın tüm insansız deniz araçlarının elektronik sistemlerinin tasarımı, geliştirilmesi ve entegrasyonundan sorumludur. Araçların beyin ve sinir sistemini oluşturan elektronik altyapının her aşamasında aktif rol oynarız.</p>
+
+            <p>Ekibimiz, güç yönetimi sistemlerinden sensör entegrasyonuna, PCB tasarımından haberleşme sistemlerine kadar geniş bir yelpazede çalışmalar yürütür. Her bir araç için özel olarak tasarlanan elektronik kartlar, güvenilirlik ve performans odaklı yaklaşımımızın ürünüdür.</p>
+
+            <h2 style="margin-top: 3rem;">Sorumluluk Alanlarımız</h2>
+            
+            <ul>
+                <li><strong>PCB Tasarımı ve Üretimi:</strong> Araçların ihtiyaçlarına özel elektronik kart tasarımı ve prototipleme</li>
+                <li><strong>Güç Yönetimi:</strong> Batarya yönetim sistemleri, voltaj regülatörleri ve güç dağıtım kartları</li>
+                <li><strong>Sensör Entegrasyonu:</strong> GPS, IMU, kamera, sonar ve diğer sensörlerin sisteme entegrasyonu</li>
+                <li><strong>Haberleşme Sistemleri:</strong> Kablosuz iletişim, telemetri ve uzaktan kontrol altyapısı</li>
+                <li><strong>Motor Sürücüleri:</strong> ESC (Electronic Speed Controller) seçimi ve konfigürasyonu</li>
+                <li><strong>Test ve Doğrulama:</strong> Tüm elektronik sistemlerin kapsamlı test edilmesi ve güvenilirlik analizleri</li>
+                <li><strong>Gömülü Sistemler:</strong> Mikrodenetleyici programlama ve düşük seviye donanım kontrolü</li>
+                <li><strong>EMI/EMC Uyumluluğu:</strong> Elektromanyetik uyumluluk testleri ve parazit önleme</li>
+            </ul>
+
+            <h2 style="margin-top: 3rem;">Kullandığımız Teknolojiler</h2>
+            
+            <ul>
+                <li>Altium Designer, KiCAD - PCB tasarım yazılımları</li>
+                <li>STM32, ESP32, Arduino - Mikrodenetleyici platformları</li>
+                <li>ROS (Robot Operating System) - Donanım yazılım entegrasyonu</li>
+                <li>LTSpice, Proteus - Devre simülasyon araçları</li>
+                <li>Oscilloscope, Logic Analyzer - Test ve ölçüm cihazları</li>
+            </ul>
+
+            <p style="margin-top: 3rem;">Elektronik ekibi olarak, teknolojinin hızla değişen doğasına ayak uydururken, güvenilirlik ve performanstan asla ödün vermiyoruz. Her proje bize yeni şeyler öğretiyor ve bizi daha iyi elektronik mühendisleri yapıyor.</p>
+        </div>
+    </div>
+
+    <div class="detail-content">
+        <a href="../index.html#team" class="back-btn" style="margin-top: 3rem;">← Ekiplere Geri Dön</a>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <h3>İletişim</h3>
+            <p>İstanbul Teknik Üniversitesi</p>
+            <p>Gemi İnşaatı ve Deniz Bilimleri Fakültesi</p>
+            <p>İTÜ Gölet Kıyısı - ITUAS BMA Atölyesi</p>
+            <p style="margin-top: 1.5rem;">&copy; 2025 ITUAS. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
